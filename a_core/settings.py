@@ -19,18 +19,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Project title displayed in the header
-PROJECT_TITLE = "Project Title"
+PROJECT_TITLE = "Mark's Live Chat Application"
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rj#-z^kx3j+1ay397otg6j8m_8#v^$^$jys6&41vy^&6le)ezc'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Heroku/production settings
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-rj#-z^kx3jGHjhfjhfghjgHJGHJGys6&41vyjhvjhgle)ezc')
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', 'https://*').split(',')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_TRUSTED_ORIGINS = [ 'https://*' ]
+import dj_database_url
 
 
 # Application definition
@@ -122,11 +123,14 @@ else:
         }
     }
 
+
+# Use Heroku Postgres if available, else default to SQLite
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
 
 
@@ -164,8 +168,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+
+# Static files for Heroku
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Whitenoise for static file serving
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media' 
