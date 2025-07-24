@@ -34,3 +34,4 @@ tzdata==2025.2
 
 dj-database-url
 whitenoise
+psycopg2-binary
