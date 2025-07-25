@@ -194,7 +194,7 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-USE_CLOUDINARY = os.environ.get('USE_CLOUDINARY', '') == 'True'
+USE_CLOUDINARY = os.environ.get('CLOUD', '') == '1'
 
 if USE_CLOUDINARY:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
