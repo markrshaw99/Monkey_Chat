@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
 
+    # Cloudinary
+    'cloudinary_storage',
+    'cloudinary',
+
     # My apps
     'a_home',
     'a_users',
@@ -169,6 +173,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
+
 # Static files for Heroku
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
@@ -178,8 +183,16 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media' 
+# Cloudinary media storage
+import cloudinary
+import cloudinary_storage
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
