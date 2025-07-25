@@ -188,8 +188,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import cloudinary
 import cloudinary_storage
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 if not os.environ.get('CLOUDINARY_URL'):
     raise Exception("CLOUDINARY_URL is not set! Cloudinary storage is required in this environment.")
