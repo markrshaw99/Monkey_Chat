@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from cloudinary.models import CloudinaryField
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    image = CloudinaryField('image', null=True, blank=True)
     displayname = models.CharField(max_length=20, null=True, blank=True)
     info = models.TextField(null=True, blank=True) 
     
