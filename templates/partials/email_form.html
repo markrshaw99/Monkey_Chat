@@ -4,6 +4,8 @@
     <button class="block !bg-gray-800" type="submit">Submit</button>
 </form>
 
+{% if oob_cancel %}
 <a hx-swap-oob="true" id="email-edit" href="{% url 'profile-settings' %}" class="font-medium text-blue-600 hover:underline">
     Cancel
 </a>
+{% endif %}
