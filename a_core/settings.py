@@ -191,8 +191,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Cloudinary media storage
+
 import cloudinary
 import cloudinary_storage
+
+# Always use https for Cloudinary URLs
+cloudinary.config(
+    secure=True
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
