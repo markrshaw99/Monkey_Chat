@@ -1,4 +1,5 @@
 ## Monkey Chat - Live Chat Application
+Deployed on Heroku: https://realtime-chatplication-9c6d5893bbc8.herokuapp.com/
 
 Monkey Chat is a real-time chat application built with Django and Django Channels. It supports public and private group chats, user profiles, and live online status updates. The app is designed for deployment on Heroku and uses modern cloud services for media and real-time features.
 
@@ -32,4 +33,4 @@ Monkey Chat is a real-time chat application built with Django and Django Channel
 ### Deployment
 This project is ready for Heroku deployment. Set your config vars for `DATABASE_URL`, `REDISCLOUD_URL`, `CLOUDINARY_URL`, and other secrets in the Heroku dashboard.
 
-Made by [markrshaw99](https://github.com/markrshaw99)
+Repo: [markrshaw99/Monkey_Chat](https://github.com/markrshaw99/Monkey_Chat)
