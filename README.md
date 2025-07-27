@@ -15,6 +15,7 @@ Monkey Chat is a real-time chat application built with Django and Django Channel
 ### Tech Stack
 - Django 5.x
 - Django Channels & Redis (for WebSockets)
+- Daphne (ASGI server for real-time features)
 - PostgreSQL (via Heroku Postgres)
 - Cloudinary (media storage)
 - HTMX & Alpine.js (frontend interactivity)
