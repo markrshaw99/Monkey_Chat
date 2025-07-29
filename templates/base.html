@@ -16,6 +16,13 @@
     <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
+        body {
+            background-image: url('{% static "images/Background.svg" %}');
+            background-size: cover;         /* Stretches image to cover the whole viewport */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;   /* Optional: keeps background fixed during scroll */
+        }
         [x-cloak] { 
             display: none !important; 
         }
@@ -25,7 +32,7 @@
         h2 {
             @apply text-xl font-bold mb-2
         }
-    	h3 {
+        h3 {
             @apply text-lg font-bold
         }
         p {
@@ -110,7 +117,7 @@
     </style>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="{% block class %}{% endblock %}">
-	
+    
     {% include 'includes/messages.html' %}
 
     {% include 'includes/header.html' %}
