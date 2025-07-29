@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import shortuuid
 import os
 from PIL import Image
+from cloudinary.models import CloudinaryField
+
 
 class ChatGroup(models.Model):
     group_name = models.CharField(max_length=128, unique=True, default=shortuuid.uuid)
@@ -20,13 +22,16 @@ class GroupMessage(models.Model):
     group = models.ForeignKey(ChatGroup, related_name='chat_messages', on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=300, blank=True, null=True)
-    file = models.FileField(upload_to='files/', blank=True, null=True)
+    file = CloudinaryField('file', resource_type='auto', blank=True, null=True)
+    original_filename = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     @property
     def filename(self):
-        if self.file:
-            return os.path.basename(self.file.name)
+        if self.original_filename:
+            return self.original_filename
+        elif self.file:
+            return os.path.basename(self.file.url)
         else:
             return None
 
@@ -34,16 +39,15 @@ class GroupMessage(models.Model):
         if self.body:
             return f'{self.author.username} : {self.body}'
         elif self.file:
-            return f'{self.author.username} sent a file "{self.filename}"'
+            return f'{self.author.username} sent a file \"{self.filename}\"'
+        return f'{self.author.username} (empty message)'
 
     class Meta:
         ordering = ['-created']
 
     @property
     def is_image(self):
-        try:
-            image = Image.open(self.file)
-            image.verify()
-            return True
-        except:
-            return False
+        if self.file and self.file.url:
+            ext = os.path.splitext(self.file.url)[1].lower()
+            return ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg']
+        return False
